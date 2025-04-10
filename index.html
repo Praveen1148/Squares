@@ -38,6 +38,7 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       transition: transform 0.2s;
+      cursor: pointer;
     }
 
     .square-card:hover {
@@ -61,28 +62,88 @@
       font-size: 0.9em;
       color: #ddd;
     }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(8px);
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .popup-card {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      transform: scale(1.2);
+      color: #fff;
+    }
+
+    .popup-overlay.hidden {
+      display: none;
+      backdrop-filter: none;
+    }
   </style>
 </head>
 <body>
   <h1>Squares of Numbers 1 to 500</h1>
   <div class="grid" id="squareGrid"></div>
 
+  <!-- Popup overlay -->
+  <div class="popup-overlay hidden" id="popupOverlay">
+    <div class="popup-card" id="popupCard">
+      <div class="number" id="popupNumber"></div>
+      <div class="result" id="popupResult"></div>
+    </div>
+  </div>
+
   <footer>Generated with JavaScript | Stylish Squares</footer>
 
   <script>
     const grid = document.getElementById('squareGrid');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupNumber = document.getElementById('popupNumber');
+    const popupResult = document.getElementById('popupResult');
 
     for (let i = 1; i <= 500; i++) {
       const card = document.createElement('div');
       card.className = 'square-card';
 
+      const square = i * i;
+
       card.innerHTML = `
         <div class="number">${i}²</div>
-        <div class="result">${i * i}</div>
+        <div class="result">${square}</div>
       `;
+
+      card.addEventListener('click', () => {
+        popupNumber.textContent = `${i}²`;
+        popupResult.textContent = square;
+        popupOverlay.classList.remove('hidden');
+      });
 
       grid.appendChild(card);
     }
+
+    // Hide popup when overlay is clicked
+    popupOverlay.addEventListener('click', () => {
+      popupOverlay.classList.add('hidden');
+    });
+
+    // Optional: Close popup with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        popupOverlay.classList.add('hidden');
+      }
+    });
   </script>
 </body>
 </html>
