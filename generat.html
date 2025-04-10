@@ -1,94 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Application Form</title>
+  <meta charset="UTF-8">
+  <title>Random Multiplication Generator</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f2f2f2;
+      background: linear-gradient(135deg, #1d2b64, #f8cdda);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin: 0;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.4);
       padding: 40px;
-    }
-
-    .form-container {
-      background: #fff;
-      max-width: 500px;
-      margin: auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    .form-container h2 {
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       text-align: center;
+      max-width: 400px;
+    }
+
+    h2 {
+      font-size: 2em;
       margin-bottom: 20px;
-      color: #333;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
     }
 
     button {
-      width: 100%;
-      padding: 12px;
-      background-color: #4CAF50;
-      color: white;
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 1.1em;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
+      border-radius: 10px;
+      background-color: #ffffff;
+      color: #1d2b64;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: transform 0.2s ease, background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #45a049;
+      transform: scale(1.05);
+      background-color: #e0e0e0;
+    }
+
+    .output {
+      margin-top: 25px;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>Random Multiplication</h2>
+    <p>Click to generate a multiplication question (product ≤ 15,000)</p>
+    <button onclick="generateMultiplication()">Generate Question</button>
+    <button onclick="revealAnswer()">Show Answer</button>
 
-<div class="form-container">
-  <h2>Application Form</h2>
-  <form action="/submit-application" method="POST">
-    <label for="fullName">Full Name</label>
-    <input type="text" id="fullName" name="fullName" required>
+    <div class="output" id="question">--</div>
+    <div class="output hidden" id="answer">--</div>
+  </div>
 
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" required>
+  <script>
+    let currentAnswer = 0;
 
-    <label for="phone">Phone Number</label>
-    <input type="tel" id="phone" name="phone" required>
+    function generateMultiplication() {
+      let a, b, product;
+      do {
+        a = Math.floor(Math.random() * 200) + 1;
+        b = Math.floor(Math.random() * 200) + 1;
+        product = a * b;
+      } while (product > 15000);
 
-    <label for="dob">Date of Birth</label>
-    <input type="date" id="dob" name="dob" required>
+      currentAnswer = product;
+      document.getElementById("question").innerText = `${a} × ${b} = ?`;
+      const answerEl = document.getElementById("answer");
+      answerEl.innerText = `Answer: ${product}`;
+      answerEl.classList.add("hidden");
+    }
 
-    <label for="gender">Gender</label>
-    <select id="gender" name="gender" required>
-      <option value="">--Select Gender--</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="other">Other</option>
-    </select>
-
-    <label for="address">Address</label>
-    <textarea id="address" name="address" rows="3" required></textarea>
-
-    <button type="submit">Submit Application</button>
-  </form>
-</div>
-
+    function revealAnswer() {
+      document.getElementById("answer").classList.remove("hidden");
+    }
+  </script>
 </body>
 </html>
