@@ -2,93 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Random Multiplication Generator</title>
+  <title>Squares from 1 to 500</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1d2b64, #f8cdda);
-      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      color: #fff;
-      margin: 0;
+      min-height: 100vh;
     }
 
-    .container {
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    h1 {
+      margin: 30px 0 10px;
+      font-size: 2.5em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      width: 90%;
+      max-width: 1200px;
+      padding: 20px;
+    }
+
+    .square-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 20px;
       text-align: center;
-      max-width: 400px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
     }
 
-    h2 {
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-
-    button {
-      padding: 12px 25px;
-      margin: 10px;
-      font-size: 1.1em;
-      border: none;
-      border-radius: 10px;
-      background-color: #ffffff;
-      color: #1d2b64;
-      cursor: pointer;
-      transition: transform 0.2s ease, background-color 0.3s ease;
-    }
-
-    button:hover {
+    .square-card:hover {
       transform: scale(1.05);
-      background-color: #e0e0e0;
+      background-color: rgba(255, 255, 255, 0.25);
     }
 
-    .output {
-      margin-top: 25px;
-      font-size: 1.8em;
+    .number {
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
+
+    .result {
+      font-size: 1.5em;
       font-weight: bold;
+      color: #f9f871;
     }
 
-    .hidden {
-      display: none;
+    footer {
+      margin: 20px;
+      font-size: 0.9em;
+      color: #ddd;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Random Multiplication</h2>
-    <p>Click to generate a multiplication question (product ≤ 15,000)</p>
-    <button onclick="generateMultiplication()">Generate Question</button>
-    <button onclick="revealAnswer()">Show Answer</button>
+  <h1>Squares of Numbers 1 to 500</h1>
+  <div class="grid" id="squareGrid"></div>
 
-    <div class="output" id="question">--</div>
-    <div class="output hidden" id="answer">--</div>
-  </div>
+  <footer>Generated with JavaScript | Stylish Squares</footer>
 
   <script>
-    let currentAnswer = 0;
+    const grid = document.getElementById('squareGrid');
 
-    function generateMultiplication() {
-      let a, b, product;
-      do {
-        a = Math.floor(Math.random() * 200) + 1;
-        b = Math.floor(Math.random() * 200) + 1;
-        product = a * b;
-      } while (product > 15000);
+    for (let i = 1; i <= 500; i++) {
+      const card = document.createElement('div');
+      card.className = 'square-card';
 
-      currentAnswer = product;
-      document.getElementById("question").innerText = `${a} × ${b} = ?`;
-      const answerEl = document.getElementById("answer");
-      answerEl.innerText = `Answer: ${product}`;
-      answerEl.classList.add("hidden");
-    }
+      card.innerHTML = `
+        <div class="number">${i}²</div>
+        <div class="result">${i * i}</div>
+      `;
 
-    function revealAnswer() {
-      document.getElementById("answer").classList.remove("hidden");
+      grid.appendChild(card);
     }
   </script>
 </body>
